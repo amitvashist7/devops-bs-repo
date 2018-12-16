@@ -1,0 +1,24 @@
+---
+
+- hosts: prod
+  sudo: yes 
+
+  tasks:
+  - name: Install Apache Packages
+    yum: name=httpd state=present
+
+  - name: Install Net-Tools Packages
+    yum: name=net-tools state=present
+
+  - name: Install JAVA Packages
+    yum: name=java state=present
+
+
+
+
+- hosts: QA
+  sudo: yes 
+
+  tasks:
+  - name: Install Apache Packages
+    apt: name=apache2 state=present
