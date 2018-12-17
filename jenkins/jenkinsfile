@@ -1,0 +1,38 @@
+node {
+
+stage('Checkout Pipeline As Code Repo.') {
+git 'https://github.com/amitvashist7/devops-bs-repo.git'
+}
+
+def project_path="spring-boot-samples/spring-boot-sample-atmosphere"
+
+dir(project_path) {
+
+stage('Maven Clean Repo.') {
+sh 'mvn clean'
+}
+
+stage('Maven Package') {
+sh 'mvn package'
+}
+
+stage('Maven Verify') {
+sh 'mvn verify'
+}
+
+stage('Deploy Code into Stage Env. - Docker') {
+sh 'docker-compose up -d --build'
+}
+
+stage('Getting Ready For Ansible Prod. Deployment') {
+sh 'cp -rf target/*.jar ../../ansible/demo4/templates/atmosphere-v1.jar'
+sh "echo '<h1>TASK BUILD ID: ${env.BUILD_DISPLAY_NAME}</h1>' > jenkins.html"
+sh 'cp -rf jenkins.html ../../ansible/demo4/templates/jenkins.html'
+}
+
+stage('Ansible Prod. Deployment') {
+sh 'ansible-playbook -i ../../ansible/demo4/inventory ../../ansible/demo4/webservice.yaml'
+}
+
+}
+}
