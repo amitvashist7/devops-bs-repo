@@ -1,0 +1,28 @@
+---
+
+- hosts: prod
+  sudo: yes 
+
+  tasks:
+  - name: Install Apache Packages
+    yum: name=httpd state=present
+
+  - name: Start Apache Service on CentOS
+    service: name=httpd state=started
+
+  - name: Install Net-Tools Packages
+    yum: name=net-tools state=present
+
+  - name: Install JAVA Packages
+    yum: name=java state=present
+
+  - name: Deploy Static Site File
+    copy: src=templates/index.html dest=/var/www/html/index.html
+
+
+- hosts: QA
+  sudo: yes 
+
+  tasks:
+  - name: Install Apache Packages
+    apt: name=apache2 state=present
