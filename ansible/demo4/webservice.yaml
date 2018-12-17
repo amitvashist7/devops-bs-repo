@@ -1,0 +1,28 @@
+---
+
+- hosts: prod
+  sudo: yes 
+  vars:
+    doc_root: /var/www/html
+
+  tasks:
+  - name: Install Apache Packages
+    yum: name=httpd state=present
+
+  - name: Start Apache Service on CentOS
+    service: name=httpd state=started
+
+  - name: Install Net-Tools Packages
+    yum: name=net-tools state=present
+
+  - name: Install JAVA Packages
+    yum: name=java state=present
+
+  - name: Deploy Static Site File
+    copy: src=templates/index.html dest={{doc_root}}/index.html
+
+  - name: Download Mario
+    get_url: url="http://www.mariomayhem.com/downloads/wallpapers/7/nsmb_wp7_1024.jpg" dest={{doc_root}}/mario.jpg mode=0755
+
+  - name: Deploy Dynamic Site File
+    template: src=templates/info.j2 dest={{doc_root}}/info.html
