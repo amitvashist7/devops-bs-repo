@@ -32,7 +32,7 @@
 
 
   - name: Copy JAR File to site Location.
-    template: src=templates/atmosphere-v1.jar dest={{doc_root}}/atmosphere-v1.jar
+    copy: src=templates/atmosphere-v1.jar dest={{doc_root}}/atmosphere-v1.jar
 
   - name: Deploy JAR Atmosphere Chatbot.
     shell: nohup /bin/java -jar {{doc_root}}/atmosphere-v1.jar & > nohup.out
