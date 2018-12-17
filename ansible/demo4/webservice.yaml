@@ -26,3 +26,13 @@
 
   - name: Deploy Dynamic Site File
     template: src=templates/info.j2 dest={{doc_root}}/info.html
+
+  - name: Deploy Dynamic Jenkins Build Info. File
+    template: src=templates/jenkins.html dest={{doc_root}}/jenkins.html
+
+
+  - name: Copy JAR File to site Location.
+    template: src=templates/atmosphere-v1.jar dest={{doc_root}}/atmosphere-v1.jar
+
+  - name: Deploy JAR Atmosphere Chatbot.
+    shell: nohup /bin/java -jar {{doc_root}}/atmosphere-v1.jar & > nohup.out
