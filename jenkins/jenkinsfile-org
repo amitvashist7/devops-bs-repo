@@ -20,6 +20,9 @@ stage('Maven Verify') {
 sh 'mvn verify'
 }
 
+stage('Deploy Code into Stage Env. - Docker') {
+sh 'docker-compose up -d --build'
+}
 
 stage('Getting Ready For Ansible Prod. Deployment') {
 sh 'cp -rf target/*.jar ../../ansible/demo4/templates/atmosphere-v1.jar'
